@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audit Sampling Tool</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container-wide header-bar">
+        <div class="brand">Audit Sampling Tool</div>
+        <nav aria-label="Primary">
+          <ul class="nav-list">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#interface">Interface</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container-wide">
+      <div class="hero-center">
+        <h1>Audit Sampling Tool with Anomaly Detection</h1>
+        <p>
+          A tool that allows auditors to upload CSV transaction data, extract
+          random samples, and highlight anomalies using ML anomaly detection
+          techniques.
+        </p>
+      </div>
+
+      <h2 id="features">⚙️ Core Features</h2>
+      <section>
+        <article>
+          <h3>CSV Upload and Parsing</h3>
+          <p>
+            This feature lets users upload transaction data in CSV format and
+            automatically reads it into the system.
+          </p>
+        </article>
+
+        <article>
+          <h3>Random Sample Extraction</h3>
+          <p>
+            The system can generate random samples from the uploaded data for
+            auditing purposes.
+          </p>
+        </article>
+
+        <article>
+          <h3>Visualization</h3>
+          <p>
+            Shows the selected data samples using simple charts or tables to
+            make review easier.
+          </p>
+        </article>
+
+        <article>
+          <h3>ML Anomaly Detection</h3>
+          <p>
+            Uses the Isolation Forest algorithm to detect unusual transactions
+            that might need investigation.
+          </p>
+        </article>
+
+        <article>
+          <h3>Export Results</h3>
+          <p>
+            Allows users to download the final results as PDF or CSV for reports
+            and documentation.
+          </p>
+        </article>
+      </section>
+      <br />
+
+      <h2 id="interface">📁 Interface Structure</h2>
+      <section>
+        <h3>Upload CSV File</h3>
+        <form id="upload-form">
+          <input id="csv-file" type="file" accept=".csv,text/csv" />
+          <input type="submit" value="Upload" />
+        </form>
+
+        <!-- status + errors -->
+        <div
+          id="upload-status"
+          aria-live="polite"
+          style="margin-top: 8px; color: #555"
+        ></div>
+        <div
+          id="upload-error"
+          role="alert"
+          style="margin-top: 8px; color: #b00020"
+        ></div>
+
+        <br />
+
+        <h3>Parsed Data Preview</h3>
+        <div id="preview-meta" style="margin: 6px 0; color: #555"></div>
+        <div style="overflow: auto; max-height: 420px">
+          <table id="preview-table" border="1"></table>
+        </div>
+      </section>
+      <br />
+
+      <h2 id="team">👥 Team</h2>
+      <table border="1">
+        <tr>
+          <th>Role</th>
+          <th>Team Member</th>
+        </tr>
+        <tr>
+          <td>Backend Developer</td>
+          <td>Angel Jaen</td>
+        </tr>
+        <tr>
+          <td>Frontend Developer</td>
+          <td>Anderson Machava</td>
+        </tr>
+        <tr>
+          <td>ML Specialist</td>
+          <td>Adriana Vargas</td>
+        </tr>
+        <tr>
+          <td>QA/DevOps Engineer</td>
+          <td>Aranza Avila</td>
+        </tr>
+      </table>
+      <br />
+
+      <h3 id="contact">📬 Contact Us</h3>
+      <form>
+        <table>
+          <tr>
+            <td>Email:</td>
+            <td>
+              <input type="email" placeholder="Enter your email" required />
+            </td>
+          </tr>
+          <tr>
+            <td>Message:</td>
+            <td>
+              <input type="text" placeholder="Enter your message" required />
+            </td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="Submit" /></td>
+            <td><input type="reset" value="Reset" /></td>
+          </tr>
+        </table>
+      </form>
+      <br />
+    </main>
+    <script type="module">
+      import { initCsvUpload } from "./js/upload.js";
+      window.addEventListener("DOMContentLoaded", () => initCsvUpload());
+    </script>
+  </body>
+</html>
