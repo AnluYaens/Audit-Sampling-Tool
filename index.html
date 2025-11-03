@@ -3,159 +3,154 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Audit Sampling Tool</title>
+    <title>Anomalyze - Home</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <header>
-      <div class="container-wide header-bar">
-        <div class="brand">Audit Sampling Tool</div>
-        <nav aria-label="Primary">
-          <ul class="nav-list">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#interface">Interface</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
+      <div class="logo">Anomalyze</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Log in</a>
+        <a href="signup.html" class="btn-outline">Sign up</a>
+      </nav>
     </header>
 
-    <main class="container-wide">
-      <div class="hero-center">
-        <h1>Audit Sampling Tool with Anomaly Detection</h1>
-        <p>
-          A tool that allows auditors to upload CSV transaction data, extract
-          random samples, and highlight anomalies using ML anomaly detection
-          techniques.
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <h1 class="hero-title">Audit smarter. Not harder.</h1>
+        <p class="hero-subtitle">
+          AI-driven anomaly detection for smarter audits
         </p>
-      </div>
-
-      <h2 id="features">⚙️ Core Features</h2>
-      <section>
-        <article>
-          <h3>CSV Upload and Parsing</h3>
-          <p>
-            This feature lets users upload transaction data in CSV format and
-            automatically reads it into the system.
-          </p>
-        </article>
-
-        <article>
-          <h3>Random Sample Extraction</h3>
-          <p>
-            The system can generate random samples from the uploaded data for
-            auditing purposes.
-          </p>
-        </article>
-
-        <article>
-          <h3>Visualization</h3>
-          <p>
-            Shows the selected data samples using simple charts or tables to
-            make review easier.
-          </p>
-        </article>
-
-        <article>
-          <h3>ML Anomaly Detection</h3>
-          <p>
-            Uses the Isolation Forest algorithm to detect unusual transactions
-            that might need investigation.
-          </p>
-        </article>
-
-        <article>
-          <h3>Export Results</h3>
-          <p>
-            Allows users to download the final results as PDF or CSV for reports
-            and documentation.
-          </p>
-        </article>
       </section>
-      <br />
 
-      <h2 id="interface">📁 Interface Structure</h2>
-      <section>
-        <h3>Upload CSV File</h3>
-        <form id="upload-form">
-          <input id="csv-file" type="file" accept=".csv,text/csv" />
-          <input type="submit" value="Upload" />
-        </form>
-
-        <!-- status + errors -->
-        <div
-          id="upload-status"
-          aria-live="polite"
-          style="margin-top: 8px; color: #555"
-        ></div>
-        <div
-          id="upload-error"
-          role="alert"
-          style="margin-top: 8px; color: #b00020"
-        ></div>
-
-        <br />
-
-        <h3>Parsed Data Preview</h3>
-        <div id="preview-meta" style="margin: 6px 0; color: #555"></div>
-        <div style="overflow: auto; max-height: 420px">
-          <table id="preview-table" border="1"></table>
+      <!-- Upload CSV Card -->
+      <section class="upload-section">
+        <div class="upload-card">
+          <h2 class="upload-title">Upload CSV</h2>
+          <form id="upload-form" class="upload-form">
+            <div class="upload-button-wrapper">
+              <button type="button" class="btn-upload" id="upload-trigger">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload
+                <span class="upload-indicator">●</span>
+              </button>
+              <input
+                type="file"
+                id="csv-file"
+                accept=".csv,text/csv"
+                style="display: none"
+              />
+            </div>
+          </form>
+          <p class="upload-info">Supported formats: CSV | Max size 15 MB</p>
         </div>
       </section>
-      <br />
 
-      <h2 id="team">👥 Team</h2>
-      <table border="1">
-        <tr>
-          <th>Role</th>
-          <th>Team Member</th>
-        </tr>
-        <tr>
-          <td>Backend Developer</td>
-          <td>Angel Jaen</td>
-        </tr>
-        <tr>
-          <td>Frontend Developer</td>
-          <td>Anderson Machava</td>
-        </tr>
-        <tr>
-          <td>ML Specialist</td>
-          <td>Adriana Vargas</td>
-        </tr>
-        <tr>
-          <td>QA/DevOps Engineer</td>
-          <td>Aranza Avila</td>
-        </tr>
-      </table>
-      <br />
+      <!-- Process Steps -->
+      <section class="steps-section">
+        <div class="steps-container">
+          <span class="step">1. Upload data</span>
+          <span class="arrow">→</span>
+          <span class="step">2. Generate sample</span>
+          <span class="arrow">→</span>
+          <span class="step">3. Detect anomalies</span>
+          <span class="arrow">→</span>
+          <span class="step">4. Export report</span>
+        </div>
+      </section>
 
-      <h3 id="contact">📬 Contact Us</h3>
-      <form>
-        <table>
-          <tr>
-            <td>Email:</td>
-            <td>
-              <input type="email" placeholder="Enter your email" required />
-            </td>
-          </tr>
-          <tr>
-            <td>Message:</td>
-            <td>
-              <input type="text" placeholder="Enter your message" required />
-            </td>
-          </tr>
-          <tr>
-            <td><input type="submit" value="Submit" /></td>
-            <td><input type="reset" value="Reset" /></td>
-          </tr>
-        </table>
-      </form>
-      <br />
+      <!-- Features Grid -->
+      <section class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Fast Sampling</h3>
+          <p class="feature-description">
+            Quickly create representative samples
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="9" cy="9" r="1.5" fill="#0a0e27" />
+              <circle cx="15" cy="9" r="1.5" fill="#0a0e27" />
+              <path
+                d="M8 14s1.5 2 4 2 4-2 4-2"
+                stroke="#0a0e27"
+                stroke-width="1.5"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <h3 class="feature-title">AI Detection</h3>
+          <p class="feature-description">
+            Identify outliers with machine learning
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Clear Reports</h3>
+          <p class="feature-description">
+            Generate detailed audit documentation
+          </p>
+        </div>
+      </section>
+
+      <!-- Connect Section -->
+      <section class="connect-section">
+        <div class="connect-card">
+          <h2 class="connect-title">Connect with us</h2>
+          <p class="connect-subtitle">Reach out for support or inquiries</p>
+          <a href="contact.html" class="btn-contact">Contact</a>
+        </div>
+      </section>
     </main>
-    <script type="module">
-      import { initCsvUpload } from "./js/upload.js";
-      window.addEventListener("DOMContentLoaded", () => initCsvUpload());
+
+    <script>
+      // Upload button functionality
+      document
+        .getElementById("upload-trigger")
+        .addEventListener("click", function () {
+          document.getElementById("csv-file").click();
+        });
+
+      document
+        .getElementById("csv-file")
+        .addEventListener("change", function (e) {
+          if (e.target.files.length > 0) {
+            const fileName = e.target.files[0].name;
+            alert(
+              `File selected: ${fileName}\n\nThis will trigger the CSV parsing logic.`
+            );
+            // TODO: implement the logic of upload.js
+          }
+        });
     </script>
   </body>
 </html>
