@@ -1,0 +1,94 @@
+# ---- OS-specific files ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ---- Node / npm / frontend builds ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---- Build / Dist / Compiled assets ----
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.output/
+out/
+.cache-loader/
+.eslintcache
+.temp/
+*.log
+*.map
+*.gz
+
+# ---- Environment & config files ----
+.env
+.env.*
+.env.local
+.env.*.local
+.envrc
+*.env
+config.json
+secrets.json
+
+# ---- Python (future backend) ----
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+*.db
+*.sqlite3
+instance/
+migrations/
+*.spec
+*.egg-info/
+.eggs/
+
+# ---- IDE / Editor folders ----
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.history/
+
+# ---- OS trash / temp files ----
+*.swp
+*.swo
+*.bak
+*.tmp
+~$*
+*.orig
+
+# ---- Testing / Coverage ----
+coverage/
+coverage.xml
+.coverage
+*.cover
+*.coverage
+.nox/
+.tox/
+.pytest_cache/
+htmlcov/
+
+# ---- Image / media cache ----
+*.thumb
+*.psd
+*.xcf
+*.ai
+
+# ---- Misc ----
+*.zip
+*.tar.gz
+*.7z
+*.rar
+.vercel/
+.netlify/
