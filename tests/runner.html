@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audit Sampling Tool – Tests</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <style>
+      body { padding: 20px; font-family: system-ui, sans-serif; }
+      .test-pass { color: #10b981; }
+      .test-fail { color: #ef4444; }
+      .test-suite { margin: 18px 0; }
+      pre { background: #0b102a; padding: 12px; border-radius: 8px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Test Runner</h1>
+    <div id="results"></div>
+
+    <script type="module" src="./runner.js"></script>
+    <script type="module" src="./upload.spec.js"></script>
+    <script type="module" src="./script.spec.js"></script>
+    <script type="module" src="./contact.spec.js"></script>
+    <script type="module" src="./css.spec.js"></script>
+  </body>
+  </html>
+

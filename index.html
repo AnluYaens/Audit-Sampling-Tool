@@ -4,15 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anomalyze - Home</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Toastify CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <header>
       <div class="logo">Anomalyze</div>
-      <nav>
+      <nav data-auth-nav data-auth-state="guest">
         <a href="index.html">Home</a>
-        <a href="login.html">Log in</a>
-        <a href="signup.html" class="btn-outline">Sign up</a>
+        <div class="nav-auth nav-profile">
+          <button type="button" class="user-pill" data-user-toggle>
+            <span class="user-pill-label" data-user-name>Profile</span>
+            <span class="user-pill-initials" data-user-initials>PR</span>
+            <span class="user-pill-caret">▾</span>
+          </button>
+          <div class="user-menu" data-user-menu hidden>
+            <div class="user-menu-section" data-menu-user hidden>
+              <div class="user-menu-header">
+                <p class="user-menu-name" data-user-menu-name>Account</p>
+                <p class="user-menu-email" data-user-menu-email></p>
+              </div>
+              <button type="button" class="user-menu-btn" data-profile-btn>
+                Profile
+              </button>
+              <button type="button" class="user-menu-btn" data-settings-btn>
+                Settings
+              </button>
+              <div class="user-menu-divider"></div>
+              <button
+                type="button"
+                class="user-menu-btn danger"
+                data-logout-btn
+              >
+                Log out
+              </button>
+            </div>
+            <div class="user-menu-section" data-menu-guest>
+              <p class="user-menu-name">Welcome</p>
+              <p class="user-menu-email muted">
+                Sign in to access your workspace.
+              </p>
+              <button type="button" class="user-menu-btn" data-login-btn>
+                Log in
+              </button>
+              <button type="button" class="user-menu-btn" data-signup-btn>
+                Sign up
+              </button>
+            </div>
+          </div>
+        </div>
       </nav>
     </header>
 
@@ -53,9 +103,32 @@
                 accept=".csv,text/csv"
                 style="display: none"
               />
+              <button
+                id="upload-form-submit"
+                type="submit"
+                style="display: none"
+                aria-hidden="true"
+              ></button>
             </div>
           </form>
           <p class="upload-info">Supported formats: CSV | Max size 15 MB</p>
+          <div class="upload-progress" id="upload-progress" aria-hidden="true">
+            <span></span>
+          </div>
+          <div
+            id="upload-status"
+            class="upload-status"
+            aria-live="polite"
+          ></div>
+          <div
+            id="upload-error"
+            class="upload-error"
+            aria-live="assertive"
+          ></div>
+          <div class="preview-wrap">
+            <div id="preview-meta" class="preview-meta"></div>
+            <table id="preview-table" class="preview-table"></table>
+          </div>
         </div>
       </section>
 
@@ -132,25 +205,41 @@
       </section>
     </main>
 
-    <script>
-      // Upload button functionality
-      document
-        .getElementById("upload-trigger")
-        .addEventListener("click", function () {
-          document.getElementById("csv-file").click();
-        });
+    <script src="js/script.js"></script>
+    <!-- Toastify JS -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script type="module">
+      import { initCsvUpload } from "./js/upload.js";
 
-      document
-        .getElementById("csv-file")
-        .addEventListener("change", function (e) {
-          if (e.target.files.length > 0) {
-            const fileName = e.target.files[0].name;
-            alert(
-              `File selected: ${fileName}\n\nThis will trigger the CSV parsing logic.`
-            );
-            // TODO: implement the logic of upload.js
-          }
-        });
+      const requireUploadAuth =
+        typeof window.requireLoginForAction === "function"
+          ? () => window.requireLoginForAction("upload a CSV")
+          : () => true;
+
+      initCsvUpload({ requireAuth: requireUploadAuth, showPreview: false });
+      const trigger = document.getElementById("upload-trigger");
+      const input = document.getElementById("csv-file");
+      const form = document.getElementById("upload-form");
+      const submitProxy = document.getElementById("upload-form-submit");
+      const submitUploadForm = () => {
+        if (!form) return;
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit(submitProxy || undefined);
+        } else {
+          form.dispatchEvent(
+            new Event("submit", { bubbles: true, cancelable: true })
+          );
+        }
+      };
+      trigger?.addEventListener("click", () => {
+        if (requireUploadAuth()) {
+          input?.click();
+        }
+      });
+      input?.addEventListener("change", submitUploadForm);
     </script>
   </body>
 </html>

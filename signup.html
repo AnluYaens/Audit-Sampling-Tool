@@ -1,18 +1,63 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - Anomalyze</title>
+    <!-- Toastify CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <header>
       <div class="logo">Anomalyze</div>
-      <nav>
+      <nav data-auth-nav data-auth-state="guest">
         <a href="index.html">Home</a>
-        <a href="login.html">Log in</a>
-        <a href="signup.html" class="btn-outline">Sign up</a>
+        <div class="nav-auth nav-profile">
+          <button type="button" class="user-pill" data-user-toggle>
+            <span class="user-pill-label" data-user-name>Profile</span>
+            <span class="user-pill-initials" data-user-initials>PR</span>
+            <span class="user-pill-caret">▾</span>
+          </button>
+          <div class="user-menu" data-user-menu hidden>
+            <div class="user-menu-section" data-menu-user hidden>
+              <div class="user-menu-header">
+                <p class="user-menu-name" data-user-menu-name>Account</p>
+                <p class="user-menu-email" data-user-menu-email></p>
+              </div>
+              <button type="button" class="user-menu-btn" data-profile-btn>
+                Profile
+              </button>
+              <button type="button" class="user-menu-btn" data-settings-btn>
+                Settings
+              </button>
+              <div class="user-menu-divider"></div>
+              <button
+                type="button"
+                class="user-menu-btn danger"
+                data-logout-btn
+              >
+                Log out
+              </button>
+            </div>
+            <div class="user-menu-section" data-menu-guest>
+              <p class="user-menu-name">Welcome</p>
+              <p class="user-menu-email muted">
+                Sign in to access your workspace.
+              </p>
+              <button type="button" class="user-menu-btn" data-login-btn>
+                Log in
+              </button>
+              <button type="button" class="user-menu-btn" data-signup-btn>
+                Sign up
+              </button>
+            </div>
+          </div>
+        </div>
       </nav>
     </header>
 
@@ -21,7 +66,7 @@
       <p class="subtitle">Start your journey with smarter audits</p>
 
       <div class="form-card">
-        <form id="signup-form">
+        <div id="signup-container">
           <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" placeholder="John Doe" required />
@@ -32,6 +77,8 @@
             <input
               type="email"
               id="email"
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="Enter a valid email address (e.g., name@example.com)"
               placeholder="john@example.com"
               required
             />
@@ -65,8 +112,10 @@
             </label>
           </div>
 
-          <button type="submit" class="btn-primary">Create Account</button>
-        </form>
+          <button type="button" id="signup-submit-btn" class="btn-primary">
+            Create Account
+          </button>
+        </div>
 
         <div class="divider">
           <span>Or continue with</span>
@@ -110,6 +159,11 @@
       </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <!-- Toastify JS -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script src="js/script.js?v=3000"></script>
   </body>
 </html>

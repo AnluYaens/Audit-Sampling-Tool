@@ -9,8 +9,45 @@
   <body>
     <header>
       <div class="logo">Anomalyze</div>
-      <nav>
+      <nav data-auth-nav data-auth-state="guest">
         <a href="index.html">Home</a>
+        <div class="nav-auth nav-profile">
+          <button type="button" class="user-pill" data-user-toggle>
+            <span class="user-pill-label" data-user-name>Profile</span>
+            <span class="user-pill-initials" data-user-initials>PR</span>
+            <span class="user-pill-caret">▾</span>
+          </button>
+          <div class="user-menu" data-user-menu hidden>
+            <div class="user-menu-section" data-menu-user hidden>
+              <div class="user-menu-header">
+                <p class="user-menu-name" data-user-menu-name>Account</p>
+                <p class="user-menu-email" data-user-menu-email></p>
+              </div>
+              <button type="button" class="user-menu-btn" data-profile-btn>
+                Profile
+              </button>
+              <button type="button" class="user-menu-btn" data-settings-btn>
+                Settings
+              </button>
+              <div class="user-menu-divider"></div>
+              <button type="button" class="user-menu-btn danger" data-logout-btn>
+                Log out
+              </button>
+            </div>
+            <div class="user-menu-section" data-menu-guest>
+              <p class="user-menu-name">Welcome</p>
+              <p class="user-menu-email muted">
+                Sign in to access your workspace.
+              </p>
+              <button type="button" class="user-menu-btn" data-login-btn>
+                Log in
+              </button>
+              <button type="button" class="user-menu-btn" data-signup-btn>
+                Sign up
+              </button>
+            </div>
+          </div>
+        </div>
       </nav>
     </header>
 
@@ -18,6 +55,8 @@
       <div class="contact-container">
         <div class="contact-form-card">
           <h1 class="contact-form-title">Contact Us</h1>
+          <div id="contact-error" class="error-message" aria-live="assertive"></div>
+          <div id="contact-success" class="success-message" aria-live="polite"></div>
 
           <form id="contact-form" class="contact-form">
             <div class="contact-input-group">
@@ -34,6 +73,8 @@
               <input
                 type="email"
                 id="contact-email"
+                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                title="Enter a valid email address (e.g., name@example.com)"
                 placeholder="Email"
                 required
                 class="contact-input"
@@ -121,6 +162,7 @@
       </div>
     </main>
 
+    <script src="js/script.js"></script>
     <script src="js/contact.js"></script>
   </body>
 </html>

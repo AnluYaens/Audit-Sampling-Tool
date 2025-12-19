@@ -1,16 +1,35 @@
+/*
+  Styles for the Audit Sampling Tool
+
+  Intent: Prioritize clarity, accessibility, and responsiveness with a dark
+  theme tuned for long review sessions. Use a small set of design tokens so
+  auditors can rebrand quickly without hunting through selectors. Keep motion
+  subtle and layouts resilient for a wide range of data shapes.
+*/
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Design tokens */
+/*
+  Theme tokens (design primitives)
+
+  Intent: Centralize color and spacing choices to make the UI easy to theme
+  for clients or engagements. Stick to a compact set that maps directly to
+  common UI elements (backgrounds, text, borders, accents, success).
+*/
 :root {
   --bg: #0a0e27;
   --bg-elevated: #0f1432;
   --text: #e6e8ff;
   --muted: rgba(255, 255, 255, 0.7);
+  --text-muted-strong: rgba(255, 255, 255, 0.75);
   --border: #2a2f55;
+  --surface-soft: rgba(255, 255, 255, 0.05);
+  --surface-soft-strong: rgba(255, 255, 255, 0.12);
+  --surface-border: rgba(255, 255, 255, 0.12);
   --accent: #8b5cf6; /* violet */
   --accent-strong: #7c3aed;
   --success: #10b981;
@@ -53,22 +72,176 @@ nav {
 }
 
 nav a {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted-strong);
   text-decoration: none;
   font-size: 16px;
   transition: color 0.3s;
 }
 
 nav a:hover {
+  color: var(--text);
+}
+
+:where(
+    .btn-outline,
+    .btn-social,
+    .btn-upload,
+    .btn-contact,
+    .btn-send-message
+  ) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nav-auth {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-profile {
+  position: relative;
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-soft);
   color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.user-pill:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: var(--surface-soft-strong);
+}
+
+.user-pill-initials {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #6c63ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-pill-caret {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.user-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  min-width: 220px;
+  background: rgba(10, 14, 39, 0.97);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 18px 45px rgba(2, 4, 22, 0.55);
+  z-index: 20;
+}
+
+.user-menu[hidden] {
+  display: none;
+}
+
+[data-auth-nav][data-auth-state="guest"] [data-menu-user] {
+  display: none;
+}
+
+[data-auth-nav][data-auth-state="user"] [data-menu-guest] {
+  display: none;
+}
+
+.user-menu-section[hidden] {
+  display: none;
+}
+
+.user-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.user-menu-section + .user-menu-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-menu-header {
+  margin-bottom: 12px;
+}
+
+.user-menu-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.user-menu-email {
+  font-size: 13px;
+  opacity: 0.7;
+  word-break: break-all;
+}
+
+.user-menu-email.muted {
+  opacity: 0.6;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background: var(--surface-border);
+  margin: 10px 0;
+}
+
+.user-menu-btn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted-strong);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.user-menu-btn:hover {
+  background: var(--surface-soft);
+}
+
+.user-menu-btn.danger {
+  color: #ff9f9f;
+}
+
+.user-menu-btn.danger:hover {
+  background: rgba(255, 74, 74, 0.12);
 }
 
 .btn-outline {
   border: 2px solid var(--accent);
   padding: 10px 28px;
   border-radius: 25px;
-  color: white;
-  transition: all 0.3s;
+  color: var(--text);
 }
 
 .btn-outline:hover {
@@ -104,14 +277,19 @@ h1 {
   font-weight: 400;
 }
 
+/* Card surfaces */
+.upload-card,
+.form-card,
+.contact-form-card {
+  background: var(--bg-elevated);
+  border: 2px solid rgba(139, 92, 246, 0.45);
+  border-radius: 22px;
+  box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
+}
+
 /* Form Card */
 .form-card {
-  background: var(--bg-elevated);
-  border-radius: 24px;
   padding: 45px 40px;
-  box-shadow: 0 0 60px rgba(139, 92, 246, 0.25),
-    0 0 24px rgba(139, 92, 246, 0.18);
-  border: 2px solid rgba(139, 92, 246, 0.4);
 }
 
 .form-group {
@@ -280,15 +458,9 @@ input::placeholder {
   border: 2px solid rgba(139, 92, 246, 0.35);
   background: #0b102a;
   border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
   font-size: 14px;
   font-weight: 500;
   color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   font-family: inherit;
 }
 
@@ -416,11 +588,7 @@ main {
 
 .upload-card {
   width: min(840px, 92%);
-  background: var(--bg-elevated);
-  border: 2px solid rgba(139, 92, 246, 0.5);
-  border-radius: 20px;
   padding: 28px 28px 22px;
-  box-shadow: 0 0 90px rgba(139, 92, 246, 0.25);
   text-align: center;
 }
 
@@ -435,17 +603,11 @@ main {
 }
 
 .btn-upload {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   color: var(--text);
   background: transparent;
   border: 2px solid var(--accent);
   border-radius: 999px;
   padding: 12px 22px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.25s ease;
 }
 
 .btn-upload:hover {
@@ -557,13 +719,10 @@ main {
   margin: 8px 0 16px;
 }
 .btn-contact {
-  display: inline-block;
   color: var(--text);
   border: 2px solid var(--accent);
   border-radius: 999px;
   padding: 10px 22px;
-  text-decoration: none;
-  transition: background 0.25s ease, transform 0.15s ease;
 }
 .btn-contact:hover {
   background: rgba(139, 92, 246, 0.12);
@@ -588,11 +747,7 @@ main {
   margin: 0 auto;
 }
 .contact-form-card {
-  background: var(--bg-elevated);
-  border: 2px solid rgba(139, 92, 246, 0.6);
-  border-radius: 18px;
   padding: 28px 26px;
-  box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
 }
 .contact-form-title {
   text-align: center;
@@ -623,16 +778,11 @@ main {
 }
 
 .btn-send-message {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   color: var(--text);
   background: transparent;
   border: 2px solid var(--accent);
   border-radius: 999px;
   padding: 10px 18px;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.15s ease;
 }
 .btn-send-message:hover {
   background: rgba(139, 92, 246, 0.12);
@@ -656,4 +806,275 @@ main {
   .connect-title {
     font-size: 22px;
   }
+}
+
+/*
+  Upload preview and status
+
+  Intent: Provide fast, legible feedback when parsing large CSVs. Status and
+  error colors are distinct and accessible; previews use sticky headers and
+  restrained borders so auditors can scan structure without visual noise.
+*/
+.upload-status {
+  margin-top: 8px;
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+.upload-progress {
+  margin-top: 14px;
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: #070c18;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.upload-progress.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.upload-progress span {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(20, 184, 166, 0.2),
+    rgba(99, 102, 241, 0.75),
+    rgba(20, 184, 166, 0.4)
+  );
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+}
+
+.upload-error {
+  margin-top: 6px;
+  color: #e5484d;
+  font-size: 0.9rem;
+}
+
+.preview-wrap {
+  margin-top: 16px;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.preview-meta {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  background: #0b1223;
+  border-bottom: 1px solid #1f2937;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.preview-table th,
+.preview-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1f2937;
+  color: #e2e8f0;
+}
+
+.preview-table thead th {
+  position: sticky;
+  top: 0;
+  background: #0a0e27;
+  text-align: left;
+}
+
+.sample-pagination {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sample-pagination .btn {
+  border-radius: 999px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-soft);
+  color: var(--text);
+  padding: 8px 18px;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.sample-pagination .btn:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.15);
+  transform: translateY(-1px);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.sample-pagination .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sample-pagination__info {
+  color: var(--text-muted-strong);
+  font-size: 0.95rem;
+}
+
+/* Ensure arrow glyph renders via ::before only */
+.steps-container .arrow {
+  font-size: 0;
+}
+
+/* Hide legacy upload indicator artifact */
+.btn-upload .upload-indicator {
+  display: none;
+}
+.auth-guard-modal {
+  position: fixed;
+  inset: 0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.26s ease, visibility 0.26s ease;
+}
+
+.auth-guard-modal[data-state="visible"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-guard-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 32, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.auth-guard-modal__dialog {
+  position: relative;
+  width: min(440px, 100%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+  padding: 44px 36px 32px;
+  box-shadow: 0 30px 80px rgba(3, 4, 35, 0.6);
+  transform: translateY(24px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.auth-guard-modal[data-state="visible"] .auth-guard-modal__dialog {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.auth-guard-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted-strong);
+  font-size: 22px;
+  padding: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-guard-modal__close:hover {
+  color: var(--text);
+  transform: scale(1.05);
+}
+
+.auth-guard-modal__icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.25),
+    rgba(124, 58, 237, 0.4)
+  );
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.auth-guard-modal__dialog h2 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.auth-guard-modal__body {
+  color: var(--text-muted-strong);
+  margin-bottom: 26px;
+  line-height: 1.6;
+}
+
+.auth-guard-modal__body span {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.auth-guard-modal__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.auth-guard-modal__button {
+  flex: 1;
+  min-width: 140px;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.auth-guard-modal__button:hover {
+  transform: translateY(-1px);
+}
+
+.auth-guard-modal__button--primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff;
+  box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+}
+
+.auth-guard-modal__button--primary:hover {
+  box-shadow: 0 18px 45px rgba(124, 58, 237, 0.5);
+}
+
+.auth-guard-modal__button--ghost {
+  background: var(--surface-soft);
+  color: var(--text);
+  border-color: transparent;
+}
+
+/* ------------------------
+   Toastify Overrides
+   ------------------------ */
+.toastify {
+  font-family: inherit;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  padding: 16px 24px;
 }

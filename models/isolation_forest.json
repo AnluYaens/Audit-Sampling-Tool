@@ -1,0 +1,26 @@
+{
+  "trained_at": "2025-11-28T20:46:46",
+  "dataset": "data\\historical_transactions.csv",
+  "contamination": 0.05,
+  "threshold": 3.5778671692021646e-17,
+  "features": [
+    "amount",
+    "log_amount",
+    "day_of_week",
+    "month",
+    "is_month_end",
+    "doc_age_days",
+    "vendor_txn_freq",
+    "dept_txn_freq",
+    "vendor_avg_amount",
+    "dept_avg_amount",
+    "vendor_amount_ratio",
+    "dept_amount_ratio",
+    "global_amount_zscore",
+    "vendor",
+    "department"
+  ],
+  "training_rows": 148,
+  "validation_rows": 62,
+  "validation_anomalies": 12
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anomalyze — Sample</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .sample-bar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #444;
+        background: #0a0e27;
+        color: #fff;
+        cursor: pointer;
+      }
+      .sample-meta {
+        opacity: 0.8;
+      }
+      .sample-bar .anomaly-status {
+        flex: 1 1 100%;
+        font-size: 0.95rem;
+        color: #ffb36b;
+      }
+      .preview-table tr.is-anomaly-row {
+        background: rgba(255, 123, 89, 0.18);
+      }
+      .reason-btn {
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid #fdba74;
+        background: transparent;
+        color: #fdba74;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .reason-btn:hover,
+      .reason-btn:focus-visible {
+        background: #fdba74;
+        color: #0a0e27;
+      }
+      .reason-modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(3, 4, 20, 0.78);
+        z-index: 1000;
+      }
+      .reason-modal[hidden] {
+        display: none;
+      }
+      .reason-modal__dialog {
+        background: #101437;
+        border-radius: 16px;
+        padding: 20px 24px;
+        width: min(480px, calc(100% - 32px));
+        color: #f6f7ff;
+        position: relative;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+      .reason-modal__backdrop {
+        position: absolute;
+        inset: 0;
+      }
+      .reason-modal__dialog h3 {
+        margin-top: 0;
+      }
+      .reason-modal__close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        border: none;
+        background: transparent;
+        color: inherit;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">Anomalyze</div>
+      <nav data-auth-nav data-auth-state="guest">
+        <a href="index.html">Home</a>
+        <div class="nav-auth nav-profile">
+          <button type="button" class="user-pill" data-user-toggle>
+            <span class="user-pill-label" data-user-name>Profile</span>
+            <span class="user-pill-initials" data-user-initials>PR</span>
+            <span class="user-pill-caret">▾</span>
+          </button>
+          <div class="user-menu" data-user-menu hidden>
+            <div class="user-menu-section" data-menu-user hidden>
+              <div class="user-menu-header">
+                <p class="user-menu-name" data-user-menu-name>Account</p>
+                <p class="user-menu-email" data-user-menu-email></p>
+              </div>
+              <button type="button" class="user-menu-btn" data-profile-btn>
+                Profile
+              </button>
+              <button type="button" class="user-menu-btn" data-settings-btn>
+                Settings
+              </button>
+              <div class="user-menu-divider"></div>
+              <button type="button" class="user-menu-btn danger" data-logout-btn>
+                Log out
+              </button>
+            </div>
+            <div class="user-menu-section" data-menu-guest>
+              <p class="user-menu-name">Welcome</p>
+              <p class="user-menu-email muted">
+                Sign in to access your workspace.
+              </p>
+              <button type="button" class="user-menu-btn" data-login-btn>
+                Log in
+              </button>
+              <button type="button" class="user-menu-btn" data-signup-btn>
+                Sign up
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <section class="upload-section">
+        <div class="upload-card">
+          <h2 class="upload-title">Sample Viewer</h2>
+
+          <div class="sample-bar">
+            <span id="file-meta" class="sample-meta">Loading…</span>
+            <label
+              >Sample size:
+              <input
+                id="sample-size"
+                type="number"
+                value="50"
+                min="1"
+                style="width: 90px; margin-left: 6px"
+            /></label>
+            <label
+              >Seed:
+              <input
+                id="sample-seed"
+                type="number"
+                value="42"
+                style="width: 110px; margin-left: 6px"
+            /></label>
+            <label
+              >Rows per page:
+              <select
+                id="sample-rows-per-page"
+                style="margin-left: 6px; padding: 6px 8px; border-radius: 8px; border: 1px solid #333; background: #06091c; color: #e6e8ff;"
+              >
+                <option value="25">25</option>
+                <option value="50">50</option>
+              <option value="100" selected>100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+          </label>
+          <button id="btn-generate" class="btn">Generate sample</button>
+          <button id="btn-export" class="btn">Export CSV</button>
+          <button id="btn-detect" class="btn">Detect anomalies</button>
+          <span
+            id="anomaly-status"
+            class="sample-meta anomaly-status"
+            aria-live="polite"
+          ></span>
+        </div>
+
+          <div class="preview-wrap" style="margin-top: 12px">
+            <div id="sample-meta" class="preview-meta"></div>
+            <table id="sample-table" class="preview-table"></table>
+          </div>
+          <div class="sample-pagination" aria-live="polite">
+            <button type="button" class="btn" id="sample-page-prev">Previous</button>
+            <span id="sample-page-info" class="sample-pagination__info">Page 1 of 1</span>
+            <button type="button" class="btn" id="sample-page-next">Next</button>
+          </div>
+
+          <canvas
+            id="sample-chart"
+            width="800"
+            height="280"
+            style="margin-top: 14px"
+          ></canvas>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script type="module">
+      import { initSamplePage } from "./js/sample-ui.js";
+      initSamplePage().catch((error) => {
+        console.error("Failed to initialize sample page", error);
+      });
+    </script>
+    <div id="reason-modal" class="reason-modal" hidden aria-hidden="true">
+      <div class="reason-modal__backdrop" data-reason-close></div>
+      <div class="reason-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reason-modal-title">
+        <button type="button" class="reason-modal__close" data-reason-close aria-label="Close reason dialog">&times;</button>
+        <h3 id="reason-modal-title">Why this may be unusual</h3>
+        <p id="reason-modal-body" style="white-space: pre-line;"></p>
+      </div>
+    </div>
+  </body>
+</html>
