@@ -4,21 +4,21 @@ from .extensions import db, login_manager, limiter, compress
 from .models import User
 
 def create_app(config_class=Config):
-    # Creamos la instacia de flask y le decimos donde esta el frontend
+    # Initialize Flask app and define static/template folders
     app = Flask(__name__,
                 template_folder="../frontend/templates",
                 static_folder="../frontend/static")
 
-    # Cargamos la configuracion desde config_class
+    # Load configuration from the config class
     app.config.from_object(config_class)
     
-    # Conectamos las extensiones a esta app especifica
+    # Initialize extensions with this app context
     db.init_app(app)
     login_manager.init_app(app)
     limiter.init_app(app)
     compress.init_app(app)
     
-    # Configuracion del login
+    # Login Manager Configuration
     @login_manager.user_loader
     def load_user(user_id):
         return db.session.get(User, int(user_id))
@@ -46,7 +46,7 @@ def create_app(config_class=Config):
     app.register_blueprint(anomaly_bp)
 
     
-    # Aseguramos que el directorio db existe para SQLite
+    # Ensure the database directory exists for SQLite
     import os
     db_path = app.config.get("SQLALCHEMY_DATABASE_URI", "")
     if db_path.startswith("sqlite:///"):
@@ -54,7 +54,7 @@ def create_app(config_class=Config):
         path = db_path.replace("sqlite:///", "")
         os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
 
-    # Crear tablas si no existen (lo haciamos en init_storage antes)
+    # Create tables if they don't exist
     with app.app_context():
         db.create_all()
 
@@ -66,7 +66,7 @@ def create_app(config_class=Config):
         response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
         return response
 
-    # Rutas de sistemas y errores
+    # System and Error Routes
     @app.route("/api/health", methods=["GET"])
     def healthcheck():
         return {"status": "ok"}
@@ -75,7 +75,7 @@ def create_app(config_class=Config):
     def request_entity_too_large(error):
         return {"error": "File is too large. Maximum size is 16MB"}, 413
     
-    # Servir Frontend
+    # Serve Frontend
     @app.route("/")
     def serve_index():
         return app.send_static_file("index.html")

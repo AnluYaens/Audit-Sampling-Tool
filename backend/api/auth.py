@@ -21,11 +21,11 @@ def signup():
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
 
-    # Verificar si existe
+    # Check if user already exists
     if User.query.filter_by(email=data["email"]).first():
         return jsonify({"error": "Email already exists"}), 409
 
-    # Crear Usuario
+    # Create new User
     new_user = User(
         name=data["name"],
         email=data["email"],
@@ -51,10 +51,10 @@ def login():
     if not user or not check_password_hash(user.password_hash, data["password"]):
         return jsonify({"error": "Invalid email or password"}), 401
 
-    # Iniciar sesion en la sesion del servidor
+    # Log user in (session-based)
     login_user(user)
 
-    # Generar token para clientes sin cookies
+    # Generate token for cookie-less clients
     s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     token = s.dumps(user.id)
 

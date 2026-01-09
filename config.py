@@ -21,4 +21,4 @@ class Config:
     
     # Rate Limiting
     RATELIMIT_DEFAULT = "200 per day;50 per hour"
-    RATELIMIT_STORAGE_URL = "memory://"
+    RATELIMIT_STORAGE_URI = "memory://"

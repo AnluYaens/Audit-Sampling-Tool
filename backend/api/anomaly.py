@@ -10,19 +10,19 @@ from ml.features import FEATURE_COLUMNS, REQUIRED_RAW_COLUMNS, prepare_features
 
 anomaly_bp = Blueprint('anomaly', __name__)
 
-# Variables globales para cachear el modelo en memoria
+# Global variables for in-memory model caching
 MODEL_PIPELINE = None
 MODEL_METADATA = {}
 
 def get_model_paths():
-    # Asumimos que ml/models esta en la raiz del proyecto
-    # current_app.root_path apunta a /backend, asi que subimos uno (..)
+    # Assume ml/models is in the project root
+    # current_app.root_path points to /backend, so go up one level (..)
     base_dir = Path(current_app.root_path).parent
     return base_dir / "ml" / "models" / "isolation_forest.joblib", \
            base_dir / "ml" / "models" / "isolation_forest.json"
 
 def load_anomaly_model():
-    """Carga el modelo al iniciar la app (o en la primera peticion)"""
+    """Load the model at app startup (or on first request)."""
     global MODEL_PIPELINE, MODEL_METADATA
     model_path, meta_path = get_model_paths()
 
@@ -37,7 +37,7 @@ def load_anomaly_model():
         if meta_path.exists():
             MODEL_METADATA = json.loads(meta_path.read_text())
     except Exception as e:
-        print(f"error loading model: {e}")
+        current_app.logger.error(f"Error loading anomaly model: {e}")
 
 def get_anomaly_threshold() -> float:
     threshold = MODEL_METADATA.get("threshold")
@@ -49,7 +49,7 @@ def get_anomaly_threshold() -> float:
 
 @anomaly_bp.before_app_request
 def ensure_model_loaded():
-    # Intentar cargar el modelo si no esta listo (lazy loading)
+    # Attempt lazy loading if model is not ready
     if MODEL_PIPELINE is None:
         load_anomaly_model()
 
@@ -83,12 +83,12 @@ def anomaly_score():
         return jsonify({"error": "Batch size limit exceeded"}), 400
 
     frame = pd.DataFrame(rows)
-    # Validar columnas
+    # Validate columns
     missing = [field for field in REQUIRED_RAW_COLUMNS if field not in frame.columns]
     if missing:
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
 
-    # Preparar features y predecir
+    # Prepare features and predict
     try:
         features = prepare_features(frame)
         scores = MODEL_PIPELINE.decision_function(features[FEATURE_COLUMNS])
