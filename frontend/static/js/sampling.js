@@ -10,7 +10,7 @@ function mulberry32(seed) {
 }
 
 /**
- * Convierte matriz [header, ...rows] a array de objetos
+ * Convert matrix [header, ...rows] into an array of objects.
  */
 export function matrixToObjects(matrix) {
   const header = matrix[0] || [];
@@ -22,7 +22,7 @@ export function matrixToObjects(matrix) {
 }
 
 /**
- * Muestreo aleatorio reproducible (Fisher–Yates + seed)
+ * Reproducible random sampling (Fisher-Yates + seed).
  */
 export function sampleRandomFromMatrix(matrix, size = 50, seed = 42) {
   const data = matrixToObjects(matrix);

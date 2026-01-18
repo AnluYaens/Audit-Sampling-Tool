@@ -15,7 +15,7 @@
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
   </head>
   <body>
     <header>
@@ -205,14 +205,14 @@
       </section>
     </main>
 
-    <script src="js/script.js"></script>
+    <script src="../static/js/script.js"></script>
     <!-- Toastify JS -->
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/toastify-js"
     ></script>
     <script type="module">
-      import { initCsvUpload } from "./js/upload.js";
+      import { initCsvUpload } from "../static/js/upload.js";
 
       const requireUploadAuth =
         typeof window.requireLoginForAction === "function"

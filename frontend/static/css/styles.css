@@ -927,16 +927,6 @@ main {
   color: var(--text-muted-strong);
   font-size: 0.95rem;
 }
-
-/* Ensure arrow glyph renders via ::before only */
-.steps-container .arrow {
-  font-size: 0;
-}
-
-/* Hide legacy upload indicator artifact */
-.btn-upload .upload-indicator {
-  display: none;
-}
 .auth-guard-modal {
   position: fixed;
   inset: 0;

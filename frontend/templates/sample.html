@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anomalyze — Sample</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
     <style>
       .sample-bar {
         display: flex;
@@ -198,9 +198,9 @@
       </section>
     </main>
 
-    <script src="js/script.js"></script>
+    <script src="../static/js/script.js"></script>
     <script type="module">
-      import { initSamplePage } from "./js/sample-ui.js";
+      import { initSamplePage } from "../static/js/sample-ui.js";
       initSamplePage().catch((error) => {
         console.error("Failed to initialize sample page", error);
       });

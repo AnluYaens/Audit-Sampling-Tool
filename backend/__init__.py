@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, render_template
+from jinja2 import TemplateNotFound
 from config import Config
 from .extensions import db, login_manager, limiter, compress
 from .models import User
@@ -78,13 +79,16 @@ def create_app(config_class=Config):
     # Serve Frontend
     @app.route("/")
     def serve_index():
-        return app.send_static_file("index.html")
+        return render_template("index.html")
 
     @app.route("/<path:path>")
     def serve_static(path):
         try:
-            return app.send_static_file(path)
-        except:
-            return app.send_static_file("index.html")
+            return render_template(path)
+        except TemplateNotFound:
+            try:
+                return app.send_static_file(path)
+            except Exception:
+                return render_template("index.html")
     
     return app

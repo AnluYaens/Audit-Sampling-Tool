@@ -26,8 +26,9 @@ from ml import (
 )
 
 LABEL_COLUMN = "label"
-DEFAULT_DATA = Path("data/historical_transactions.csv")
-DEFAULT_MODEL_DIR = Path("models")
+ROOT_DIR = Path(__file__).resolve().parents[1]
+DEFAULT_DATA = ROOT_DIR / "backend" / "data" / "historical_transactions.csv"
+DEFAULT_MODEL_DIR = Path(__file__).resolve().parent / "models"
 
 
 def encode_labels(series: pd.Series) -> pd.Series:
