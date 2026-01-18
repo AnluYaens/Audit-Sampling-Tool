@@ -6,9 +6,12 @@ sampling, and anomaly detection with a pre-trained Isolation Forest model.
 ## Requirements
 
 - Python 3.9+ (recommended)
-- Windows PowerShell (commands below)
+- pip/venv (included with Python)
+- Windows, macOS, or Linux
 
 ## Setup
+
+PowerShell (Windows):
 
 ```powershell
 python -m venv venv
@@ -17,13 +20,35 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
+Bash (macOS/Linux):
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
+
 ## Run
+
+PowerShell (Windows):
 
 ```powershell
 python run.py
 ```
 
+Bash (macOS/Linux):
+
+```bash
+python run.py
+```
+
 Open `http://127.0.0.1:5000` in your browser.
+
+## Usage
+
+To use the app, use the Excel file located in `data/`.
+For uploads to work, you must sign up and log in first.
 
 ## Model files
 
@@ -34,30 +59,20 @@ The API expects these files to exist (already included in this repo):
 
 To retrain:
 
+PowerShell (Windows):
+
 ```powershell
 python ml/train_isolation_forest.py `
   --data backend/data/historical_transactions.csv `
   --model-dir ml/models
 ```
 
-## Packaging (zip)
+## Notes
 
-This creates a clean zip without virtualenvs, caches, `.env`, or local DBs:
-
-```powershell
-tar -a -c -f Audit-Sampling-Tool.zip `
-  --exclude=venv `
-  --exclude=__pycache__ `
-  --exclude=.git `
-  --exclude=.pytest_cache `
-  --exclude=*.pyc `
-  --exclude=*.zip `
-  --exclude=.env `
-  --exclude=backend/data/auth.db `
-  .
-```
-
-Notes:
 - The SQLite auth DB is created automatically on first run.
 - The frontend loads Toastify and Font Awesome from CDN. If you need an offline
   package, download those assets and update the HTML templates.
+
+## Copyright
+
+Copyright (c) 2026 Angel Jaen, Aranza Avila, Adriana Vargas, Anderson Machava.
